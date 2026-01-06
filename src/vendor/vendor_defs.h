@@ -55,7 +55,7 @@
 #define MAX_ENDPOINT_ID_LEN (256)   // Maximum number of characters in an Endpoint ID
 #define MAX_MSG_ID_LEN (256)        // Maximum number of characters in a USP message ID allocated by this Agent
 #define MAX_PATH_SEGMENTS (32)      // Maximum number of segments (eg "Device, "LocalAgent") in a path. Does not include instance numbers.
-#define MAX_COMPOUND_KEY_PARAMS 4   // Maximum number of parameters in a compound unique key
+#define MAX_COMPOUND_KEY_PARAMS 8   // Maximum number of parameters in a compound unique key
 #define MAX_SEARCH_KEYS 10          // Maximum number of parameters in a search expression
 
 #define MAX_CONTROLLERS 5           // Maximum number of controllers which may be present in the DB (Device.LocalAgent.Controller.{i})
@@ -85,7 +85,7 @@
 // Maximum number of bytes allowed in a USP protobuf message.
 // This is not used to size any arrays, just used as a security measure to prevent rogue controllers crashing
 // the agent process with out of memory
-#define MAX_USP_MSG_LEN (5*1024*1024)
+#define MAX_USP_MSG_LEN (192*1024)
 
 // Maximum number of bytes allowed in a UDS MTP frame payload
 // This limits the UDS payload length as a security measure to prevent rogue controllers crashing the agent process by consuming too much memory
@@ -97,7 +97,7 @@
 
 // Location of the database file to use, if none is specified on the command line when invoking this executable
 // NOTE: As the database needs to be stored persistently, this should be changed to a directory which is not cleared on boot up
-#define DEFAULT_DATABASE_FILE               OBUSPA_LOCAL_STATE_DIR "/usp.db"
+#define DEFAULT_DATABASE_FILE               "/etc/obuspa.db"
 
 // Location of unix domain stream file used for CLI communication between client and server
 #define CLI_UNIX_DOMAIN_FILE                "/tmp/usp_cli"
@@ -155,7 +155,7 @@
 // Comment out the following define if you want to let the Linux routing tables decide which network interface to use for USP connections
 // Letting the Linux routing tables decide is better for devices that can connect to the STOMP server through either
 // WiFi or ethernet, and either of these interfaces could be down at any one time
-#define CONNECT_ONLY_OVER_WAN_INTERFACE
+//#define CONNECT_ONLY_OVER_WAN_INTERFACE
 
 //-----------------------------------------------------------------------------------------
 // OUI (Organization Unique Identifier) to use for this CPE. This code will be unique to the manufacturer

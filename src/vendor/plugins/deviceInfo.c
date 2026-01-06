@@ -1,21 +1,27 @@
-#include "usp_api.h"
+#include "deviceInfo.h"
 #include "usp_err_codes.h"
 #include <string.h>
 
-int GetManufacturer(char *buf, int len)
+int GetManufacturer(dm_req_t *req, char *buf, int len)
 {
+    USP_UNUSED(req);
+
     strncpy(buf, "IXCSoft", len);
     return USP_ERR_OK;
 }
 
-int GetModelName(char *buf, int len) 
+int GetModelName(dm_req_t *req, char *buf, int len)
 {
+    USP_UNUSED(req);
+
     strncpy(buf, "IXC_CPE", len);
     return USP_ERR_OK;
 }
 
-int GetProductClass(char *buf, int len)
+int GetProductClass(dm_req_t *req, char *buf, int len)
 {
+    USP_UNUSED(req);
+
     strncpy(buf, "IXC_CPE", len);
     return USP_ERR_OK;
 }
