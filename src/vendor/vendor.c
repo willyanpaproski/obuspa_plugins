@@ -63,9 +63,7 @@
 **************************************************************************/
 int VENDOR_Init(void)
 {
-    USP_REGISTER_VendorParam_ReadOnly("Device.DeviceInfo.Manufacturer", GetManufacturer, DM_STRING);
-    USP_REGISTER_VendorParam_ReadOnly("Device.DeviceInfo.ModelName", GetModelName, DM_STRING);
-    USP_REGISTER_VendorParam_ReadOnly("Device.DeviceInfo.ProductClass", GetProductClass, DM_STRING);
+    USP_REGISTER_VendorParam_ReadOnly("Device.DeviceInfo.X_IXC_Teste", GetTeste, DM_STRING);
 
     return USP_ERR_OK;
 }
