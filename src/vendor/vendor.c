@@ -48,6 +48,7 @@
 #include "vendor_defs.h"
 #include "vendor_api.h"
 #include "usp_api.h"
+#include "plugins/deviceInfo.h"
 
 /*********************************************************************//**
 **
@@ -62,6 +63,9 @@
 **************************************************************************/
 int VENDOR_Init(void)
 {
+    USP_REGISTER_VendorParam_ReadOnly("Device.DeviceInfo.Manufacturer", GetManufacturer, DM_STRING);
+    USP_REGISTER_VendorParam_ReadOnly("Device.DeviceInfo.ModelName", GetModelName, DM_STRING);
+    USP_REGISTER_VendorParam_ReadOnly("Device.DeviceInfo.ProductClass", GetProductClass, DM_STRING);
 
     return USP_ERR_OK;
 }
