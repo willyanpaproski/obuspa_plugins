@@ -10,6 +10,7 @@ int GetGateway(dm_req_t *req, char *buf, int len)
     struct uci_context *ctx = NULL;
     struct uci_ptr ptr;
     int ret = USP_ERR_OK;
+    const char *uci_path = "dhcpv4.lan.start";
 
     (void)req;
 
@@ -20,13 +21,14 @@ int GetGateway(dm_req_t *req, char *buf, int len)
 
     memset(&ptr, 0, sizeof(ptr));
 
-    // Busca network.lan.ipaddr (o IP da interface LAN, que é o gateway padrão)
-    if (uci_lookup_ptr(ctx, &ptr, "network.lan.ipaddr", true) != UCI_OK ||
+    if (uci_lookup_ptr(ctx, &ptr, uci_path, true) != UCI_OK ||
         ptr.o == NULL ||
+        ptr.o->type != UCI_TYPE_STRING ||
         ptr.o->v.string == NULL ||
         strlen(ptr.o->v.string) == 0)
     {
-        ret = USP_ERR_INTERNAL_ERROR;
+        snprintf(buf, len, "192.168.0.1");
+        ret = USP_ERR_OK;
         goto exit;
     }
 
