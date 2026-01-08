@@ -66,34 +66,50 @@ int VENDOR_Init(void)
 {
     int err = USP_ERR_OK;
 
-    err |= USP_REGISTER_Object("Device.DHCPv4.", NULL, NULL, NULL, NULL, NULL, NULL);
-    err |= USP_REGISTER_Object("Device.DHCPv4.Server.", NULL, NULL, NULL, NULL, NULL, NULL);
-
-    err |= USP_REGISTER_Object("Device.DHCPv4.Server.Pool.1.", NULL, NULL, NULL, NULL, NULL, NULL);
+    err |= USP_REGISTER_Object("Device.DHCPv4.{i}.", NULL, NULL, NULL, NULL, NULL, NULL);
+    err |= USP_REGISTER_Object("Device.DHCPv4.Server.{i}.", NULL, NULL, NULL, NULL, NULL, NULL);
+    err |= USP_REGISTER_Object("Device.DHCPv4.Server.Pool.{i}.", NULL, NULL, NULL, NULL, NULL, NULL);
 
     err |= USP_REGISTER_VendorParam_ReadOnly("Device.DeviceInfo.X_IXC_Teste", GetTeste, DM_STRING);
-    
-    err |= USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.1.IPRouters", GetGateway, DM_STRING);
+    err |= USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.{i}.IPRouters", GetGateway, DM_STRING);
+
+    if (err != USP_ERR_OK) {
+        USP_LOG_Error("%s: Falha ao registrar objetos DHCPv4", __FUNCTION__);
+    }
 
     return err;
 }
-
 
 /*********************************************************************//**
 **
 ** VENDOR_Start
 **
 ** Called after data model has been registered and after instance numbers have been read from the USP database
-** Typically this function is used to seed the data model with instance numbers or
-** initialise internal data structures which require the data model to be running to access parameters
-**
-** \param   None
-**
-** \return  USP_ERR_OK if successful
+** Aqui criamos a instância estática 1 para os objetos
 **
 **************************************************************************/
 int VENDOR_Start(void)
 {
+    int err;
+    int new_instance;
+
+    err = DATA_MODEL_AddInstance("Device.DHCPv4.", &new_instance, 0);
+    if (err != USP_ERR_OK || new_instance != 1) {
+        USP_LOG_Error("%s: Falha ao criar Device.DHCPv4.1 (err=%d, inst=%d)", __FUNCTION__, err, new_instance);
+        return err;
+    }
+
+    err = DATA_MODEL_AddInstance("Device.DHCPv4.Server.", &new_instance, 0);
+    if (err != USP_ERR_OK || new_instance != 1) {
+        USP_LOG_Error("%s: Falha ao criar Device.DHCPv4.Server.1", __FUNCTION__);
+        return err;
+    }
+
+    err = DATA_MODEL_AddInstance("Device.DHCPv4.Server.Pool.", &new_instance, 0);
+    if (err != USP_ERR_OK || new_instance != 1) {
+        USP_LOG_Error("%s: Falha ao criar Device.DHCPv4.Server.Pool.1", __FUNCTION__);
+        return err;
+    }
 
     return USP_ERR_OK;
 }
