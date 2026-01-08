@@ -67,10 +67,10 @@ int VENDOR_Init(void)
     int err = USP_ERR_OK;
 
     err |= USP_REGISTER_Object(
-        "Device.DHCPv4.Server.Pool.{i}",
-        GetDhcpv4ServerPoolInstances,
-        NULL, 
-        NULL,  
+        "Device.DHCPv4.Server.Pool.1",
+        NULL,
+        NULL,
+        NULL,
         NULL,
         NULL,
         NULL
@@ -78,7 +78,7 @@ int VENDOR_Init(void)
 
     err |= USP_REGISTER_VendorParam_ReadOnly("Device.DeviceInfo.X_IXC_Teste", GetTeste, DM_STRING);
     
-    err |= USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.{i}.IPRouters", GetGateway, DM_STRING);
+    err |= USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.1.IPRouters", GetGateway, DM_STRING);
 
     return err;
 }
