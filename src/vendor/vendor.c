@@ -92,8 +92,9 @@ int VENDOR_Init(void)
 int VENDOR_Start(void)
 {
     int err = USP_ERR_OK;
+    int instance = 1;
 
-    err = USP_DM_RefreshInstance("Device.DHCPv4.Server.Pool.1");
+    err |= USP_DM_AddInstance("Device.DHCPv4.Server.Pool.", instance);
 
     return err;
 }
