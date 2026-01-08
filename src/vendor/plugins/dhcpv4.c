@@ -22,8 +22,9 @@ int GetGateway(dm_req_t *req, char *buf, int len)
 
     if (uci_lookup_ptr(ctx, &ptr, uci_path, true) != UCI_OK ||
         ptr.o == NULL ||
-        ptr.o->type != UCI_TYPE_OPTION ||
-        ptr.o->v.string == NULL)
+        ptr.o->type != UCI_TYPE_STRING ||
+        ptr.o->v.string == NULL ||
+        ptr.o->v.string[0] == '\0')
     {
         snprintf(buf, len, "0.0.0.0");
     }
