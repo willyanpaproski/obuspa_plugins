@@ -21,11 +21,11 @@ int VENDOR_Init(void)
     //Inicia parâmetros do servidor dhcp
     err |= USP_REGISTER_Object("Device.DHCPv4.Server.Pool.{i}.", NULL, NULL, NULL, NULL, NULL, NULL);
     err |= USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.{i}.IPRouters", GetGateway, DM_STRING);
-    err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.SubnetMask", GetSubnetMask, DM_STRING);
-    err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.MinAddress", GetMinAddress, DM_STRING);
-    err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.MaxAddress", GetMaxAddress, DM_STRING);
-    err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.LeaseTime", GetLeaseTime, DM_INT);
-    err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.Enable", GetEnable, DM_BOOL);
+    err |= USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.{i}.SubnetMask", GetSubnetMask, DM_STRING);
+    err |= USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.{i}.MinAddress", GetMinAddress, DM_STRING);
+    err |= USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.{i}.MaxAddress", GetMaxAddress, DM_STRING);
+    err |= USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.{i}.LeaseTime", GetLeaseTime, DM_INT);
+    err |= USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.{i}.Enable", GetEnable, DM_BOOL);
     err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.Status", "Enabled", DM_STRING);
     err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.Alias", "cpe-dhcpv4serverpool", DM_STRING);
 
