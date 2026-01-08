@@ -1,45 +1,3 @@
-/*
- *
- * Copyright (C) 2019-2025, Broadband Forum
- * Copyright (C) 2024-2025, Vantiva Technologies SAS
- * Copyright (C) 2016-2024  CommScope, Inc
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * 3. Neither the name of the copyright holder nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
- * THE POSSIBILITY OF SUCH DAMAGE.
- *
- */
-
-/**
- * \file vendor.c
- *
- * Implements the interface to all vendor implemented data model nodes
- *
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -55,23 +13,28 @@
 **
 ** VENDOR_Init
 **
-** Initialises this component, and registers all parameters and vendor hooks, which it implements
-**
-** \param   None
-**
-** \return  USP_ERR_OK if successful
-**
 **************************************************************************/
 int VENDOR_Init(void)
 {
     int err = USP_ERR_OK;
 
-    err |= USP_REGISTER_Object("Device.DHCPv4.{i}.", NULL, NULL, NULL, NULL, NULL, NULL);
-    err |= USP_REGISTER_Object("Device.DHCPv4.Server.{i}.", NULL, NULL, NULL, NULL, NULL, NULL);
+    // Registra apenas o Pool como multi-instance (os pais já existem no core)
     err |= USP_REGISTER_Object("Device.DHCPv4.Server.Pool.{i}.", NULL, NULL, NULL, NULL, NULL, NULL);
 
+    // Parâmetro de teste
     err |= USP_REGISTER_VendorParam_ReadOnly("Device.DeviceInfo.X_IXC_Teste", GetTeste, DM_STRING);
+
+    // Seu gateway (IPRouters é uma lista separada por vírgula, mas como é single pool, ok)
     err |= USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.{i}.IPRouters", GetGateway, DM_STRING);
+
+    // Recomendado: registre outros parâmetros obrigatórios como constantes para evitar erros de schema
+    // Exemplos mínimos para um Pool funcional (ajuste valores se necessário)
+    err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.Enable", "true", DM_BOOL);
+    err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.Status", "Enabled", DM_STRING);
+    err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.Alias", "cpe-lan", DM_STRING);
+    err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.MinAddress", "192.168.1.100", DM_STRING);
+    err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.MaxAddress", "192.168.1.200", DM_STRING);
+    err |= USP_REGISTER_Param_Constant("Device.DHCPv4.Server.Pool.{i}.SubnetMask", "255.255.255.0", DM_STRING);
 
     if (err != USP_ERR_OK) {
         USP_LOG_Error("%s: Falha ao registrar objetos DHCPv4", __FUNCTION__);
@@ -84,15 +47,10 @@ int VENDOR_Init(void)
 **
 ** VENDOR_Start
 **
-** Called after data model has been registered and after instance numbers have been read from the USP database
-** Aqui criamos a instância estática 1 para os objetos
-**
 **************************************************************************/
 int VENDOR_Start(void)
 {
-    // Informa a existência da instância 1 para cada nível hierárquico
-    USP_DM_InformInstance("Device.DHCPv4.1.");
-    USP_DM_InformInstance("Device.DHCPv4.Server.1.");
+    // Cria a instância estática única do Pool
     USP_DM_InformInstance("Device.DHCPv4.Server.Pool.1.");
 
     return USP_ERR_OK;
@@ -102,17 +60,8 @@ int VENDOR_Start(void)
 **
 ** VENDOR_Stop
 **
-** Called when stopping USP agent gracefully, to free up memory and shutdown
-** any vendor processes etc
-**
-** \param   None
-**
-** \return  USP_ERR_OK if successful
-**
 **************************************************************************/
 int VENDOR_Stop(void)
 {
-
     return USP_ERR_OK;
 }
-
