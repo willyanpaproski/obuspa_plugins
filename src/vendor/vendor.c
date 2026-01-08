@@ -90,26 +90,10 @@ int VENDOR_Init(void)
 **************************************************************************/
 int VENDOR_Start(void)
 {
-    int err;
-    int new_instance;
-
-    err = DATA_MODEL_AddInstance("Device.DHCPv4.", &new_instance, 0);
-    if (err != USP_ERR_OK || new_instance != 1) {
-        USP_LOG_Error("%s: Falha ao criar Device.DHCPv4.1 (err=%d, inst=%d)", __FUNCTION__, err, new_instance);
-        return err;
-    }
-
-    err = DATA_MODEL_AddInstance("Device.DHCPv4.Server.", &new_instance, 0);
-    if (err != USP_ERR_OK || new_instance != 1) {
-        USP_LOG_Error("%s: Falha ao criar Device.DHCPv4.Server.1", __FUNCTION__);
-        return err;
-    }
-
-    err = DATA_MODEL_AddInstance("Device.DHCPv4.Server.Pool.", &new_instance, 0);
-    if (err != USP_ERR_OK || new_instance != 1) {
-        USP_LOG_Error("%s: Falha ao criar Device.DHCPv4.Server.Pool.1", __FUNCTION__);
-        return err;
-    }
+    // Informa a existência da instância 1 para cada nível hierárquico
+    USP_DM_InformInstance("Device.DHCPv4.1.");
+    USP_DM_InformInstance("Device.DHCPv4.Server.1.");
+    USP_DM_InformInstance("Device.DHCPv4.Server.Pool.1.");
 
     return USP_ERR_OK;
 }
