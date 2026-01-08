@@ -20,9 +20,11 @@ int GetGateway(dm_req_t *req, char *buf, int len)
 
     memset(&ptr, 0, sizeof(ptr));
 
-    if (uci_lookup_ptr(ctx, &ptr, "dhcpv4.lan.router", true) != UCI_OK ||
+    // Busca network.lan.ipaddr (o IP da interface LAN, que é o gateway padrão)
+    if (uci_lookup_ptr(ctx, &ptr, "network.lan.ipaddr", true) != UCI_OK ||
         ptr.o == NULL ||
-        ptr.o->v.string == NULL)
+        ptr.o->v.string == NULL ||
+        strlen(ptr.o->v.string) == 0)
     {
         ret = USP_ERR_INTERNAL_ERROR;
         goto exit;
