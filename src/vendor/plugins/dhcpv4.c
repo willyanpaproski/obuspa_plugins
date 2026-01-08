@@ -9,9 +9,11 @@ int GetGateway(dm_req_t *req, char *buf, int len)
 {
     struct uci_context *ctx;
     struct uci_ptr ptr;
-    char *uci_path = "dhcpv4.lan.router";
+    char uci_path[64];
 
     (void)req;
+
+    snprintf(uci_path, sizeof(uci_path), "dhcpv4.lan.router");
 
     ctx = uci_alloc_context();
     if (ctx == NULL) {
