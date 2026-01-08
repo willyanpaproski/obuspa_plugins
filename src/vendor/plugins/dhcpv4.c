@@ -9,7 +9,7 @@ int GetGateway(dm_req_t *req, char *buf, int len)
 {
     struct uci_context *ctx;
     struct uci_ptr ptr;
-    const char *uci_path = "dhcpv4.lan.router";
+    char *uci_path = "dhcpv4.lan.router";
 
     (void)req;
 
