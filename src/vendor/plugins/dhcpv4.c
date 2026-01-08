@@ -34,3 +34,16 @@ exit:
     uci_free_context(ctx);
     return ret;
 }
+
+int GetDhcpv4ServerPoolInstances(dm_req_t *req, int *instances, int max_instances)
+{
+    (void)req;
+
+    if (max_instances < 1)
+    {
+        return 0;
+    }
+
+    instances[0] = 1;
+    return 1;
+}
