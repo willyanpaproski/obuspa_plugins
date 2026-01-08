@@ -10,7 +10,7 @@ int GetGateway(dm_req_t *req, char *buf, int len)
     struct uci_context *ctx = NULL;
     struct uci_ptr ptr;
     int ret = USP_ERR_OK;
-    const char *uci_path = "dhcpv4.lan.start";
+    char *uci_path = "dhcpv4.lan.start";
 
     (void)req;
 
@@ -28,7 +28,6 @@ int GetGateway(dm_req_t *req, char *buf, int len)
         strlen(ptr.o->v.string) == 0)
     {
         snprintf(buf, len, "192.168.0.1");
-        ret = USP_ERR_OK;
         goto exit;
     }
 
