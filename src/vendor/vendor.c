@@ -49,6 +49,7 @@
 #include "vendor_api.h"
 #include "usp_api.h"
 #include "plugins/deviceInfo.h"
+#include "plugins/dhcpv4.h"
 
 /*********************************************************************//**
 **
@@ -64,6 +65,7 @@
 int VENDOR_Init(void)
 {
     USP_REGISTER_VendorParam_ReadOnly("Device.DeviceInfo.X_IXC_Teste", GetTeste, DM_STRING);
+    USP_REGISTER_VendorParam_ReadOnly("Device.DHCPv4.Server.Pool.1.IPRouters", GetGateway, DM_STRING);
 
     return USP_ERR_OK;
 }

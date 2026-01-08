@@ -1082,22 +1082,9 @@ int PopulateRebootInfo(void)
 **************************************************************************/
 int GetActiveSoftwareVersion(dm_req_t *req, char *buf, int len)
 {
-    int err;
-    get_active_software_version_cb_t   get_active_software_version_cb;
+    (void)req;
 
-    // Exit if unable to get the active software version from the vendor
-    *buf = '\0';
-    get_active_software_version_cb = vendor_hook_callbacks.get_active_software_version_cb;
-    if (get_active_software_version_cb != NULL)
-    {
-        err = get_active_software_version_cb(buf, len);
-        if (err != USP_ERR_OK)
-        {
-            USP_ERR_SetMessage("%s: get_active_software_version_cb() failed", __FUNCTION__);
-            return err;
-        }
-    }
-
+    strncpy(buf, "V1.0", len);
     return USP_ERR_OK;
 }
 
