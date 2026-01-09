@@ -30,7 +30,7 @@ int GetStringValue(char *path, char *buf, int len)
         ptr.o->v.string == NULL ||
         ptr.o->v.string[0] == '\0')
     {
-        snprintf(buf, len, "0.0.0.0");
+        snprintf(buf, len, "");
     }
     else
     {
